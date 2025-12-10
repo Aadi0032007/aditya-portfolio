@@ -1,7 +1,8 @@
 'use client';
 
 import { useRef } from 'react';
-import { Cylinder, PerspectiveCamera, useFrame } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
+import { Cylinder, PerspectiveCamera } from '@react-three/drei';
 import { Group, Quaternion, Vector3 } from 'three';
 import { SectionId, useUIStore } from '@/store/ui';
 
