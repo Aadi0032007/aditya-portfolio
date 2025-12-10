@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aditya | Creative Engineer Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+  <div class="cursor"></div>
+  <div class="cursor cursor-outline"></div>
+
+  <header class="nav">
+    <div class="logo">Aditya</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="pill" href="mailto:hello@aditya.dev">Let’s talk</a>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="eyebrow">Product-focused Software Engineer</div>
+      <h1>Hi, I’m <span class="accent">Aditya</span>. I craft delightful web experiences that merge engineering precision with playful motion.</h1>
+      <p class="lede">5+ years building reliable, user-centered products across fintech, developer tools, and consumer apps. I ship fast, collaborate deeply, and obsess over the details—down to the pixel and performance trace.</p>
+      <div class="hero-actions">
+        <a class="pill" href="#projects">View projects</a>
+        <a class="ghost" href="#experience">See my journey</a>
+      </div>
+      <div class="stats">
+        <div><span>12</span> Shipped products</div>
+        <div><span>35%</span> Average load time reduction across apps</div>
+        <div><span>3</span> Teams led to production launches</div>
+      </div>
+    </section>
+
+    <section class="panel" id="about">
+      <div class="section-heading">
+        <p class="eyebrow">About</p>
+        <h2>The engineer who loves motion, craft, and impact.</h2>
+      </div>
+      <div class="panel-grid">
+        <div class="card">
+          <h3>Product mindset</h3>
+          <p>I translate ambiguous ideas into shipped features with measurable outcomes. I’m comfortable defining scope, writing docs, and pairing with design to get the experience right.</p>
+        </div>
+        <div class="card">
+          <h3>Experience</h3>
+          <p>Previously at StellarPay (fintech), Relay Labs (dev tools), and Aurora Apps (consumer). I’ve led squads, mentored juniors, and built design systems that scale.</p>
+        </div>
+        <div class="card">
+          <h3>Front-end craft</h3>
+          <p>TypeScript, React, and performant animations are my home. I also enjoy full-stack work with Node/Express and ship production-grade APIs.</p>
+        </div>
+        <div class="card">
+          <h3>Human collaborator</h3>
+          <p>Strong written communication, async updates, and a bias for pair debugging. I value clarity and candor with designers, PMs, and stakeholders.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="experience">
+      <div class="section-heading">
+        <p class="eyebrow">Experience</p>
+        <h2>Recent roles that shaped my approach.</h2>
+      </div>
+      <div class="timeline" id="experience-list"></div>
+    </section>
+
+    <section class="panel" id="projects">
+      <div class="section-heading">
+        <p class="eyebrow">Projects</p>
+        <h2>Selected work with a focus on interaction and reliability.</h2>
+      </div>
+      <div class="masonry" id="projects-grid"></div>
+    </section>
+
+    <section class="panel" id="skills">
+      <div class="section-heading">
+        <p class="eyebrow">Skills</p>
+        <h2>Tools I trust to move fast and deliver quality.</h2>
+      </div>
+      <div class="skills">
+        <div class="pill">TypeScript</div>
+        <div class="pill">React / Next.js</div>
+        <div class="pill">Node.js</div>
+        <div class="pill">GraphQL & REST</div>
+        <div class="pill">PostgreSQL</div>
+        <div class="pill">Tailwind & CSS Modules</div>
+        <div class="pill">Motion & Framer</div>
+        <div class="pill">Testing Library</div>
+        <div class="pill">CI/CD</div>
+        <div class="pill">Design Systems</div>
+        <div class="pill">Accessibility</div>
+        <div class="pill">Web Performance</div>
+      </div>
+    </section>
+
+    <section class="panel" id="achievements">
+      <div class="section-heading">
+        <p class="eyebrow">Highlights</p>
+        <h2>Moments I’m proud of.</h2>
+      </div>
+      <div class="panel-grid">
+        <div class="card">
+          <p class="metric">99.96%</p>
+          <h3>Uptime on StellarPay merchant dashboard after refactor</h3>
+          <p>Refactored state management, added observability, and introduced feature flags to enable safe rollouts.</p>
+        </div>
+        <div class="card">
+          <p class="metric">-42%</p>
+          <h3>Faster onboarding</h3>
+          <p>Streamlined the signup flow with async validation and edge caching, improving conversion across three markets.</p>
+        </div>
+        <div class="card">
+          <p class="metric">3x</p>
+          <h3>Developer velocity</h3>
+          <p>Built a component library with tokens and docs, cutting new feature build time and boosting consistency.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel contact" id="contact">
+      <div class="cta">
+        <p class="eyebrow">Contact</p>
+        <h2>Let’s build something that feels alive.</h2>
+        <p>Available for senior front-end roles, freelance product builds, and design-system consulting.</p>
+        <div class="hero-actions">
+          <a class="pill" href="mailto:hello@aditya.dev">Email me</a>
+          <a class="ghost" href="https://www.linkedin.com/in/aditya" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2024 Aditya — Crafted with care and motion.</p>
+    <div class="footer-links">
+      <a href="#top">Back to top</a>
+      <a href="https://github.com/aditya" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://dribbble.com" target="_blank" rel="noreferrer">Dribbble</a>
+    </div>
+  </footer>
+
+  <script src="scripts.js" type="module"></script>
+</body>
+</html>
