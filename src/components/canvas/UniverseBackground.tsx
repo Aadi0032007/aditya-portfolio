@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Group, InstancedMesh, Matrix4, Vector3 } from 'three';
+import { Group, InstancedMesh, Matrix4, Object3D, Vector3 } from 'three';
 import { Line } from '@react-three/drei';
 import { TensorField } from './TensorField';
 import { RoboticArm } from './RoboticArm';
@@ -76,7 +76,7 @@ function OrbitalTraces() {
 
 function IonicCurtain() {
   const meshRef = useRef<InstancedMesh>(null);
-  const dummy = useMemo(() => new Matrix4(), []);
+  const dummy = useMemo(() => new Object3D(), []);
   const pointer = useUIStore((s) => s.pointer);
   const nodes = useMemo(() =>
     Array.from({ length: 120 }, () => ({
@@ -91,9 +91,10 @@ function IonicCurtain() {
     nodes.forEach((node, idx) => {
       const osc = Math.sin(t * 0.8 + node.offset) * 0.6;
       const follow = new Vector3(pointer.x * 3, pointer.y * 2, 0).multiplyScalar(0.2);
-      dummy.setPosition(node.anchor.x + osc * 0.4 + follow.x, node.anchor.y + osc * 0.3 + follow.y, node.anchor.z);
+      dummy.position.set(node.anchor.x + osc * 0.4 + follow.x, node.anchor.y + osc * 0.3 + follow.y, node.anchor.z);
       dummy.scale.setScalar(0.4 + Math.abs(Math.sin(t + idx)) * 0.35);
-      meshRef.current!.setMatrixAt(idx, dummy);
+      dummy.updateMatrix();
+      meshRef.current!.setMatrixAt(idx, dummy.matrix);
     });
     meshRef.current.instanceMatrix.needsUpdate = true;
   });
