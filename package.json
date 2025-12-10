@@ -1,0 +1,36 @@
+{
+  "name": "aditya-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@react-spring/three": "^9.7.4",
+    "@react-three/drei": "^9.114.6",
+    "@react-three/fiber": "^9.12.0",
+    "@react-three/rapier": "^1.4.0",
+    "autoprefixer": "^10.4.20",
+    "classnames": "^2.5.1",
+    "framer-motion": "^11.3.30",
+    "maath": "^0.10.7",
+    "next": "^14.2.10",
+    "postcss": "^8.4.47",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.13",
+    "three": "^0.170.0",
+    "zustand": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.10",
+    "typescript": "^5.6.3"
+  }
+}

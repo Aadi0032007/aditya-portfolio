@@ -1,0 +1,66 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import { OrbitControls, Text3D } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Physics, RigidBody } from '@react-three/rapier';
+import { useSpring, a } from '@react-spring/three';
+import { Color } from 'three';
+
+interface SkillCloudProps {
+  skills: string[];
+}
+
+function SkillBody({ label, index }: { label: string; index: number }) {
+  const [active, setActive] = useState(false);
+  const { scale, wire } = useSpring({
+    scale: active ? 1.3 : 1,
+    wire: active ? 1 : 0,
+    config: { tension: 120, friction: 14 }
+  });
+
+  const color = useMemo(() => new Color(`hsl(${(index * 40) % 360},80%,70%)`), [index]);
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    state.camera.position.lerp({ x: Math.sin(t * 0.1) * 4, y: 2.5, z: 6 }, 0.02);
+    state.camera.lookAt(0, 0, 0);
+  });
+
+  return (
+    <RigidBody
+      restitution={0.7}
+      friction={0.2}
+      colliders="ball"
+      position={[(Math.random() - 0.5) * 3, Math.random() * 2 + 1.5, (Math.random() - 0.5) * 3]}
+      onCollisionEnter={() => setActive(true)}
+      onCollisionExit={() => setActive(false)}
+    >
+      <a.mesh scale={scale} onClick={() => setActive((v) => !v)}>
+        <icosahedronGeometry args={[0.45, 0]} />
+        <a.meshStandardMaterial color={color} wireframe={wire.to((v) => v > 0.5)} />
+        <Text3D position={[-0.9, 0, 0.6]} rotation={[-Math.PI / 2, 0, 0]} size={0.18} height={0.02} font="https://raw.githubusercontent.com/pmndrs/drei-assets/master/fonts/Inter_Bold.json">
+          {label}
+          <meshStandardMaterial color="#e5e7eb" />
+        </Text3D>
+      </a.mesh>
+    </RigidBody>
+  );
+}
+
+export function SkillCloud({ skills }: SkillCloudProps) {
+  return (
+    <div className="h-[520px] rounded-2xl overflow-hidden border border-white/10">
+      <Canvas camera={{ position: [0, 2.5, 6], fov: 40 }} dpr={[1, 1.5]}>
+        <color attach="background" args={[0.03, 0.06, 0.12]} />
+        <ambientLight intensity={0.6} />
+        <directionalLight intensity={1.1} position={[4, 6, 3]} />
+        <Physics gravity={[0, -2, 0]} timeStep="varying">
+          {skills.map((skill, idx) => (
+            <SkillBody key={skill} label={skill} index={idx} />
+          ))}
+        </Physics>
+        <OrbitControls enablePan={false} minDistance={4} maxDistance={8} autoRotate autoRotateSpeed={0.6} />
+      </Canvas>
+    </div>
+  );
+}
