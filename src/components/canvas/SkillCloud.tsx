@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { OrbitControls, Text3D } from '@react-three/drei';
+import { Html, OrbitControls } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Physics, RigidBody } from '@react-three/rapier';
 import { useSpring, a } from '@react-spring/three';
@@ -38,10 +38,14 @@ function SkillBody({ label, index }: { label: string; index: number }) {
       <a.mesh scale={scale} onClick={() => setActive((v) => !v)}>
         <icosahedronGeometry args={[0.45, 0]} />
         <a.meshStandardMaterial color={color} wireframe={wire.to((v) => v > 0.5)} />
-        <Text3D position={[-0.9, 0, 0.6]} rotation={[-Math.PI / 2, 0, 0]} size={0.18} height={0.02} font="https://raw.githubusercontent.com/pmndrs/drei-assets/master/fonts/Inter_Bold.json">
+        <Html
+          position={[-0.9, 0, 0.6]}
+          transform
+          occlude
+          className="select-none text-xs font-semibold tracking-wide text-slate-100 drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
+        >
           {label}
-          <meshStandardMaterial color="#e5e7eb" />
-        </Text3D>
+        </Html>
       </a.mesh>
     </RigidBody>
   );
