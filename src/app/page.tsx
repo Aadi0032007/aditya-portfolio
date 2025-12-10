@@ -6,6 +6,7 @@ import { Experience } from '@/components/sections/Experience';
 import { Projects } from '@/components/sections/Projects';
 import { Skills } from '@/components/sections/Skills';
 import { Contact } from '@/components/sections/Contact';
+import { UniverseBackground } from '@/components/canvas/UniverseBackground';
 import { useUIStore } from '@/store/ui';
 import { useEffect } from 'react';
 
@@ -23,13 +24,16 @@ export default function Page() {
   }, [setPointer]);
 
   return (
-    <main className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-10 md:px-6">
-      <Hero />
-      <Summary />
-      <Experience />
-      <Projects />
-      <Skills />
-      <Contact />
-    </main>
+    <div className="relative">
+      <UniverseBackground />
+      <main className="relative z-10 mx-auto flex max-w-6xl flex-col gap-12 px-4 py-10 md:px-6 lg:gap-14">
+        <Hero />
+        <Summary />
+        <Experience />
+        <Projects />
+        <Skills />
+        <Contact />
+      </main>
+    </div>
   );
 }

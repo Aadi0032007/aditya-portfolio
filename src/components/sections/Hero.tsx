@@ -1,8 +1,5 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
-import { TensorField } from '../canvas/TensorField';
-import { RoboticArm } from '../canvas/RoboticArm';
 import { useUIStore } from '@/store/ui';
 import { profile } from '@/data/resume';
 import { useEffect, useMemo } from 'react';
@@ -43,7 +40,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden rounded-3xl border border-white/5 bg-slate-900/40 px-8 py-16 lg:px-16"
+      className="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/60 px-8 py-14 shadow-glass lg:px-16"
       onPointerMove={handlePointerMove}
     >
       <motion.div
@@ -51,7 +48,8 @@ export function Hero() {
         style={{ background: 'radial-gradient(circle at 50% 40%, rgba(59,130,246,0.16), transparent 40%)', x: glowX, y: glowY }}
         aria-hidden
       />
-      <div className="grid items-center gap-10 lg:grid-cols-2">
+      <div className="absolute inset-0 opacity-50" style={{ backgroundImage: 'linear-gradient(120deg, rgba(125,211,252,0.15), transparent 40%), linear-gradient(300deg, rgba(168,85,247,0.15), transparent 45%)' }} />
+      <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="relative z-10 space-y-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm uppercase tracking-[0.25em] text-slate-200">
             The Computational Universe
@@ -78,16 +76,33 @@ export function Hero() {
             </motion.span>
           </div>
         </div>
-        <div className="relative h-[520px] rounded-3xl border border-white/5 bg-gradient-to-b from-slate-900 to-slate-950">
-          <div className="absolute inset-0">
-            <Canvas camera={{ position: [0, 0, 6], fov: 60 }}>
-              <ambientLight intensity={0.6} />
-              <pointLight position={[5, 5, 5]} intensity={1.5} />
-              <TensorField />
-              <RoboticArm />
-            </Canvas>
+        <div className="relative z-10 grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+          <div className="flex items-center justify-between text-sm text-slate-300">
+            <span>Robotics · AI · Physics</span>
+            <span className="rounded-full bg-accent/20 px-3 py-1 text-accent">Live</span>
           </div>
-          <div className="absolute inset-0 grid-overlay" />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl border border-white/5 bg-gradient-to-br from-white/5 to-transparent p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Operating Envelope</p>
+              <p className="text-xl font-semibold text-white">Autonomous Agents</p>
+              <p className="text-sm text-slate-300">LangChain · Transformers · VLMs</p>
+            </div>
+            <div className="rounded-xl border border-white/5 bg-gradient-to-br from-white/5 to-transparent p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Realtime Stack</p>
+              <p className="text-xl font-semibold text-white">GPU Orchestration</p>
+              <p className="text-sm text-slate-300">CUDA · Azure · Docker · AKS</p>
+            </div>
+            <div className="rounded-xl border border-white/5 bg-gradient-to-br from-white/5 to-transparent p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Research Grade</p>
+              <p className="text-xl font-semibold text-white">Chaos-Inspired Control</p>
+              <p className="text-sm text-slate-300">Lorenz attractors · IK · feedback loops</p>
+            </div>
+            <div className="rounded-xl border border-white/5 bg-gradient-to-br from-white/5 to-transparent p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Field Focus</p>
+              <p className="text-xl font-semibold text-white">Healthcare &amp; Robotics</p>
+              <p className="text-sm text-slate-300">Multimodal perception · assistive flows</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
