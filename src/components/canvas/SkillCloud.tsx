@@ -5,7 +5,8 @@ import { Html, OrbitControls } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Physics, RigidBody } from '@react-three/rapier';
 import { useSpring, a } from '@react-spring/three';
-import { Color } from 'three';
+import { Color, Vector3 } from 'three';
+import { useUIStore } from '@/store/ui';
 
 interface SkillCloudProps {
   skills: string[];
@@ -13,6 +14,7 @@ interface SkillCloudProps {
 
 function SkillBody({ label, index }: { label: string; index: number }) {
   const [active, setActive] = useState(false);
+  const pointer = useUIStore((s) => s.pointer);
   const { scale, wire } = useSpring({
     scale: active ? 1.3 : 1,
     wire: active ? 1 : 0,
@@ -22,8 +24,9 @@ function SkillBody({ label, index }: { label: string; index: number }) {
   const color = useMemo(() => new Color(`hsl(${(index * 40) % 360},80%,70%)`), [index]);
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    state.camera.position.lerp({ x: Math.sin(t * 0.1) * 4, y: 2.5, z: 6 }, 0.02);
-    state.camera.lookAt(0, 0, 0);
+    const lookTarget = new Vector3(pointer.x * 2.5, 1.4 + pointer.y, 0);
+    state.camera.position.lerp(new Vector3(Math.sin(t * 0.2) * 2 + pointer.x * 1.2, 2.4 + pointer.y, 6), 0.04);
+    state.camera.lookAt(lookTarget);
   });
 
   return (
@@ -53,7 +56,7 @@ function SkillBody({ label, index }: { label: string; index: number }) {
 
 export function SkillCloud({ skills }: SkillCloudProps) {
   return (
-    <div className="h-[520px] rounded-2xl overflow-hidden border border-white/10">
+    <div className="h-[520px] overflow-hidden rounded-2xl border border-white/10">
       <Canvas camera={{ position: [0, 2.5, 6], fov: 40 }} dpr={[1, 1.5]}>
         <color attach="background" args={[0.03, 0.06, 0.12]} />
         <ambientLight intensity={0.6} />
@@ -63,7 +66,7 @@ export function SkillCloud({ skills }: SkillCloudProps) {
             <SkillBody key={skill} label={skill} index={idx} />
           ))}
         </Physics>
-        <OrbitControls enablePan={false} minDistance={4} maxDistance={8} autoRotate autoRotateSpeed={0.6} />
+        <OrbitControls enablePan={false} minDistance={4} maxDistance={8} autoRotate autoRotateSpeed={0.4} />
       </Canvas>
     </div>
   );

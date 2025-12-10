@@ -21,15 +21,16 @@ export function RoboticArm() {
   const activeSection = useUIStore((s) => s.activeSection);
   const pointer = useUIStore((s) => s.pointer);
 
-  useFrame(({ camera }) => {
+  useFrame(({ clock, camera }) => {
     if (!groupRef.current || !headRef.current) return;
     const target = sectionTargets[activeSection];
     const dir = target.clone().normalize();
     const quaternion = new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), dir);
-    groupRef.current.quaternion.slerp(quaternion, 0.1);
+    groupRef.current.quaternion.slerp(quaternion, 0.08);
 
-    const pointerVec = new Vector3(pointer.x * 0.001, pointer.y * -0.001, 0);
+    const pointerVec = new Vector3(pointer.x * 3, pointer.y * -3, 0);
     headRef.current.lookAt(pointerVec);
+    headRef.current.rotation.y += Math.sin(clock.elapsedTime * 1.2) * 0.01;
 
     camera.position.set(0, 0, 5);
     camera.lookAt(0, 0, 0);

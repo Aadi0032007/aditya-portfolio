@@ -34,14 +34,34 @@ export function Projects() {
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45 }}
+                whileHover={{ scale: 1.01, borderColor: 'rgba(94,234,212,0.6)' }}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-semibold text-white">{project.title}</h3>
                     <p className="text-slate-300">{project.description}</p>
                   </div>
-                  {project.linkLabel && <span className="rounded-full border border-white/20 px-3 py-1 text-xs text-accent">{project.linkLabel}</span>}
+                  {project.linkLabel && project.linkUrl && (
+                    <a
+                      className="rounded-full border border-white/20 px-3 py-1 text-xs text-accent underline-offset-4 hover:underline"
+                      href={project.linkUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {project.linkLabel}
+                    </a>
+                  )}
                 </div>
+                {project.details && (
+                  <ul className="mt-3 space-y-1 text-slate-200/90">
+                    {project.details.map((detail) => (
+                      <li key={detail} className="flex gap-2">
+                        <span className="text-accent">▹</span>
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 {project.tech && (
                   <div className="mt-3 flex flex-wrap gap-2">
                     {project.tech.map((t) => (
@@ -61,7 +81,7 @@ export function Projects() {
             <pointLight position={[4, 4, 4]} intensity={1.1} />
             <LorenzAttractor />
           </Canvas>
-          <div className="absolute inset-0 bg-gradient-to-t from-deep via-transparent to-transparent pointer-events-none" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-deep via-transparent to-transparent" />
         </div>
       </div>
     </section>

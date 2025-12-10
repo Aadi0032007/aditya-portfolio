@@ -5,43 +5,74 @@ import { TensorField } from '../canvas/TensorField';
 import { RoboticArm } from '../canvas/RoboticArm';
 import { useUIStore } from '@/store/ui';
 import { profile } from '@/data/resume';
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useMemo } from 'react';
+import type { PointerEvent as ReactPointerEvent } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 export function Hero() {
   const setPointer = useUIStore((s) => s.setPointer);
   const setActiveSection = useUIStore((s) => s.setActiveSection);
 
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 120, damping: 18 });
+  const springY = useSpring(mouseY, { stiffness: 120, damping: 18 });
+  const glowX = useTransform(springX, (v) => `${v * 18}px`);
+  const glowY = useTransform(springY, (v) => `${v * 18}px`);
+
   useEffect(() => setActiveSection('hero'), [setActiveSection]);
+
+  const handlePointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const normalizedX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const normalizedY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    setPointer(normalizedX, normalizedY);
+    mouseX.set(normalizedX);
+    mouseY.set(normalizedY);
+  };
+
+  const contactButtons = useMemo(
+    () => [
+      { label: 'LinkedIn', href: profile.linkedin },
+      { label: 'GitHub', href: profile.github },
+      { label: 'Email', href: `mailto:${profile.email}` }
+    ],
+    []
+  );
 
   return (
     <section
       id="hero"
       className="relative overflow-hidden rounded-3xl border border-white/5 bg-slate-900/40 px-8 py-16 lg:px-16"
-      onMouseMove={(e) => setPointer(e.clientX, e.clientY)}
+      onPointerMove={handlePointerMove}
     >
-      <div className="grid gap-10 lg:grid-cols-2 items-center">
+      <motion.div
+        className="pointer-events-none absolute inset-0"
+        style={{ background: 'radial-gradient(circle at 50% 40%, rgba(59,130,246,0.16), transparent 40%)', x: glowX, y: glowY }}
+        aria-hidden
+      />
+      <div className="grid items-center gap-10 lg:grid-cols-2">
         <div className="relative z-10 space-y-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm uppercase tracking-[0.25em] text-slate-200">
             The Computational Universe
           </div>
           <div className="space-y-2">
             <p className="text-sm text-slate-300">{profile.location} · {profile.email}</p>
-            <h1 className="text-4xl md:text-6xl font-semibold font-display neon-text">{profile.name}</h1>
+            <h1 className="font-display text-4xl font-semibold text-white md:text-6xl neon-text">{profile.name}</h1>
             <p className="text-xl text-slate-300">{profile.title}</p>
             <p className="max-w-xl text-lg text-slate-200/90">{profile.tagline}</p>
+            <p className="text-sm text-slate-400">Mobile: {profile.phone}</p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <a className="btn-primary" href={profile.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
-            </a>
-            <a className="btn-secondary" href={profile.github} target="_blank" rel="noreferrer">
-              GitHub
-            </a>
+          <div className="flex flex-wrap items-center gap-3">
+            {contactButtons.map((item) => (
+              <a key={item.label} className="btn-primary" href={item.href} target="_blank" rel="noreferrer">
+                {item.label}
+              </a>
+            ))}
             <motion.span
               className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm"
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+              animate={{ y: [0, -6, 0], x: [0, 4, 0] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
             >
               Neural Constellation · IK Arm · Chaos Theory
             </motion.span>

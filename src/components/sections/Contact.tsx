@@ -1,6 +1,6 @@
 'use client';
 
-import { profile } from '@/data/resume';
+import { extraLinks, profile } from '@/data/resume';
 import { useUIStore } from '@/store/ui';
 import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
@@ -20,7 +20,7 @@ export function Contact() {
 
   return (
     <section ref={ref} id="contact" className="section-shell px-8 py-10 md:px-12 md:py-12">
-      <div className="grid gap-6 md:grid-cols-2 items-center">
+      <div className="grid items-start gap-6 md:grid-cols-2">
         <div className="space-y-3">
           <div className="code-badge">Let&apos;s collaborate</div>
           <h3 className="text-2xl font-semibold text-white">Build the next intelligent system together.</h3>
@@ -44,8 +44,16 @@ export function Contact() {
           <p className="text-sm uppercase tracking-[0.25em] text-slate-200">Coordinates</p>
           <div className="mt-3 space-y-2 text-lg">
             <p>{profile.location}</p>
+            <p>{profile.phone}</p>
             <p>{profile.email}</p>
             <p>{profile.linkedin}</p>
+          </div>
+          <div className="mt-4 space-y-2 text-sm text-slate-200/90">
+            {extraLinks.map((link) => (
+              <a key={link.url} className="block underline-offset-4 hover:underline" href={link.url} target="_blank" rel="noreferrer">
+                {link.label}
+              </a>
+            ))}
           </div>
         </motion.div>
       </div>

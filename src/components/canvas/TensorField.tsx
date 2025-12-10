@@ -7,7 +7,7 @@ import { Color, Vector3 } from 'three';
 import { useUIStore } from '@/store/ui';
 
 const TensorMaterial = shaderMaterial(
-  { uTime: 0, uMouse: new Vector3(), uStrength: 1.5, uColorA: new Color('#7dd3fc'), uColorB: new Color('#a855f7') },
+  { uTime: 0, uMouse: new Vector3(), uStrength: 1.2, uColorA: new Color('#7dd3fc'), uColorB: new Color('#a855f7') },
   /* glsl */ `
   varying vec3 vPosition;
   varying float vDist;
@@ -16,7 +16,7 @@ const TensorMaterial = shaderMaterial(
   void main() {
     vPosition = position;
     vDist = length(uMouse - position);
-    vec3 displaced = position + normalize(position + uMouse) * 0.08 * smoothstep(uStrength, 0.0, vDist);
+    vec3 displaced = position + normalize(position + uMouse) * 0.1 * smoothstep(uStrength, 0.0, vDist);
     vec4 mvPosition = modelViewMatrix * vec4(displaced, 1.0);
     gl_PointSize = 2.0 + 12.0 * smoothstep(uStrength, 0.0, vDist);
     gl_Position = projectionMatrix * mvPosition;
@@ -29,7 +29,7 @@ const TensorMaterial = shaderMaterial(
   uniform vec3 uColorA;
   uniform vec3 uColorB;
   void main() {
-    float flicker = sin(uTime * 0.75 + vDist * 2.5) * 0.5 + 0.5;
+    float flicker = sin(uTime * 0.9 + vDist * 2.5) * 0.5 + 0.5;
     float alpha = smoothstep(0.0, 1.0, 1.0 - vDist);
     vec3 color = mix(uColorA, uColorB, flicker);
     gl_FragColor = vec4(color, alpha);
@@ -45,7 +45,7 @@ export function TensorField() {
   const mouse = useUIStore((s) => s.pointer);
 
   const positions = useMemo(() => {
-    const pts = new Float32Array(2000 * 3);
+    const pts = new Float32Array(2400 * 3);
     for (let i = 0; i < pts.length; i += 3) {
       pts[i] = (Math.random() - 0.5) * 6;
       pts[i + 1] = (Math.random() - 0.5) * 6;
@@ -54,13 +54,13 @@ export function TensorField() {
     return pts;
   }, []);
 
-  useFrame(({ clock, viewport }) => {
+  const mouseVec = useRef(new Vector3());
+
+  useFrame(({ clock }) => {
     if (!materialRef.current) return;
     materialRef.current.uTime = clock.getElapsedTime();
-    const { width, height } = viewport.getCurrentViewport();
-    const x = (mouse.x / width) * 2;
-    const y = (mouse.y / height) * 2;
-    materialRef.current.uMouse = new Vector3(x, y, 0);
+    mouseVec.current.lerp(new Vector3(mouse.x * 2.5, mouse.y * 2.5, 0), 0.08);
+    materialRef.current.uMouse = mouseVec.current;
   });
 
   return (

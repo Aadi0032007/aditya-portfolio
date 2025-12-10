@@ -13,7 +13,11 @@ export default function Page() {
   const setPointer = useUIStore((s) => s.setPointer);
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => setPointer(e.clientX, e.clientY);
+    const handler = (e: PointerEvent) => {
+      const normalizedX = (e.clientX / window.innerWidth) * 2 - 1;
+      const normalizedY = (e.clientY / window.innerHeight) * 2 - 1;
+      setPointer(normalizedX, normalizedY);
+    };
     window.addEventListener('pointermove', handler);
     return () => window.removeEventListener('pointermove', handler);
   }, [setPointer]);

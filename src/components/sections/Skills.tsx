@@ -36,6 +36,16 @@ export function Skills() {
               ))}
             </ul>
             <div>
+              <h4 className="text-sm uppercase tracking-[0.2em] text-slate-400">Core Competencies</h4>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {skills.competencies.map((s) => (
+                  <span key={s} className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200">
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div>
               <h4 className="text-sm uppercase tracking-[0.2em] text-slate-400">Soft Skills</h4>
               <div className="mt-2 flex flex-wrap gap-2">
                 {skills.soft.map((s) => (
