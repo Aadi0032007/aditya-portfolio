@@ -34,10 +34,26 @@ export function Hero() {
 
   const contactButtons = useMemo(
     () => [
-      { label: 'LinkedIn', href: profile.linkedin },
-      { label: 'GitHub', href: profile.github },
-      { label: 'Email', href: `mailto:${profile.email}` },
-      { label: 'WhatsApp', href: 'https://wa.me/917543037822' }
+      {
+        label: 'LinkedIn',
+        href: profile.linkedin,
+        hoverClass: 'hover:bg-[#0077b5] hover:border-[#0077b5] hover:text-white dark:hover:text-white'
+      },
+      {
+        label: 'GitHub',
+        href: profile.github,
+        hoverClass: 'hover:bg-[#333] hover:border-[#333] hover:text-white dark:hover:text-white'
+      },
+      {
+        label: 'Email',
+        href: `mailto:${profile.email}`,
+        hoverClass: 'hover:bg-indigo-600 hover:border-indigo-600 hover:text-white dark:hover:text-white'
+      },
+      {
+        label: 'WhatsApp',
+        href: 'https://wa.me/917543037822',
+        hoverClass: 'hover:bg-[#25D366] hover:border-[#25D366] hover:text-white dark:hover:text-white'
+      }
     ],
     []
   );
@@ -127,18 +143,17 @@ export function Hero() {
                   href={btn.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="group relative overflow-hidden rounded-full border border-slate-200 dark:border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-slate-700 dark:text-white transition-all hover:bg-white/10 hover:border-indigo-400/50"
+                  className={`group relative overflow-hidden rounded-full border border-slate-200 dark:border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-slate-700 dark:text-white transition-all duration-300 ${btn.hoverClass}`}
                 >
                   <span className="relative z-10">{btn.label}</span>
-                  <div className="absolute inset-0 -z-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 transition-opacity group-hover:opacity-100" />
+                  {/* Removed the generic purple gradient overlay to allow specific color to shine */}
                 </a>
               ))}
               <a
                 href={`tel:${profile.phone}`}
-                className="group relative overflow-hidden rounded-full border border-slate-200 dark:border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-slate-700 dark:text-white transition-all hover:bg-white/10 hover:border-indigo-400/50"
+                className="group relative overflow-hidden rounded-full border border-slate-200 dark:border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-slate-700 dark:text-white transition-all duration-300 hover:bg-slate-800 hover:border-slate-800 hover:text-white dark:hover:bg-slate-700 dark:hover:border-slate-700"
               >
                 <span className="relative z-10">{profile.phone}</span>
-                <div className="absolute inset-0 -z-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
             </motion.div>
           </div>
