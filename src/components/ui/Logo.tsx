@@ -22,100 +22,57 @@ export function Logo() {
     const springY = useSpring(y, springConfig);
 
     useEffect(() => {
-        // 1. Mouse Interaction Logic
         const handleGlobalMouseMove = (e: MouseEvent) => {
+            // Fixed position of the icon (Left: 24px + 24px radius = 48px center)
             const iconCenterX = 48;
             const iconCenterY = 48;
             const iconRadius = 24;
+
             const dx = e.clientX - iconCenterX;
             const dy = e.clientY - iconCenterY;
+
             const distance = Math.sqrt(dx * dx + dy * dy);
             const detectionRadius = 250;
 
             if (distance < detectionRadius) {
+                // Exponential force for stronger close-range reaction
                 const force = Math.pow((detectionRadius - distance) / detectionRadius, 2);
-                const maxDisplacement = 400;
+                const maxDisplacement = 400; // Can move up to 400px away
                 const moveDistance = maxDisplacement * force;
+
+                // Direction vector (normalized)
                 const angle = Math.atan2(dy, dx);
 
+                // Move OPPOSITE to cursor
                 let moveX = -(Math.cos(angle) * moveDistance);
                 let moveY = -(Math.sin(angle) * moveDistance);
 
-                // Clamp logic...
-                const margin = 30;
-                const currentX = 24; const currentY = 24;
+                // Boundary checks (Icon fixed at 24,24)
+                const margin = 30; // Safety margin
+                const currentX = 24;
+                const currentY = 24;
+
                 const targetX = currentX + moveX;
                 const targetY = currentY + moveY;
+
+                // Hard clamp with "squish" potential (future)
+                // For now, simple clamp to ensure visibility
                 if (targetX < margin) moveX = margin - currentX;
                 if (targetX > window.innerWidth - margin - iconRadius * 2) moveX = window.innerWidth - margin - iconRadius * 2 - currentX;
+
                 if (targetY < margin) moveY = margin - currentY;
                 if (targetY > window.innerHeight - margin - iconRadius * 2) moveY = window.innerHeight - margin - iconRadius * 2 - currentY;
 
                 x.set(moveX);
                 y.set(moveY);
             } else {
-                // Only reset if NO Gyro active (simple check, or we let Gyro take over if mouse is far)
-                // For hybrid, we might want to sum them, but for now reset is fine as mouse overrides tilt
                 x.set(0);
                 y.set(0);
             }
         };
 
-        // 2. Gyro Interaction Logic (Anti-Gravity)
-        const handleOrientation = (e: DeviceOrientationEvent) => {
-            // If mouse is INTERACTING (distance < radius), ignore gyro? 
-            // Or cleaner: Gyro applies a constant "wind" force.
-
-            // Let's implement simple "Gravity Slide"
-            // Tilt Right (Gamma > 0) -> Slides Right
-            // Tilt Down (Beta > 0) -> Slides Down
-
-            const gamma = e.gamma || 0; // Left/Right -90 to 90
-            const beta = e.beta || 0; // Front/Back -180 to 180
-
-            // Calibration: 45deg holding angle
-            const xTilt = gamma;
-            const yTilt = beta - 45;
-
-            // Slide factor
-            const factor = 2;
-
-            // This is a subtle effect, not full screen travel
-            // Just shifting center of mass
-            // We set the 'spring target' to this offset
-
-            // NOTE: We only update if we are NOT in mouse interaction mode.
-            // Needs state? For simplicity, we'll let mouse event override this via high frequency updates,
-            // but since deviceorientation fires separately, they might fight.
-            // Ideally: MotionValue = MouseEffect + GyroEffect.
-
-            // For now, let's just create a ref to track if mouse is active?
-            // Actually, easiest way is to apply this only if mouse is undefined or far.
-            // But since this runs on mobile, 'mousemove' won't happen often.
-
-            // Map tilt to position
-            const newX = xTilt * factor;
-            const newY = yTilt * factor;
-
-            // Check if within clamp
-            // (Simplified for brevity as standard use is mostly center)
-            x.set(newX);
-            y.set(newY);
-        };
-
-        // Detect touch device roughly
-        const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-
-        if (isTouch) {
-            window.addEventListener('deviceorientation', handleOrientation);
-        } else {
-            window.addEventListener('mousemove', handleGlobalMouseMove);
-        }
-
-        return () => {
-            window.removeEventListener('mousemove', handleGlobalMouseMove);
-            window.removeEventListener('deviceorientation', handleOrientation);
-        };
+        window.addEventListener('mousemove', handleGlobalMouseMove);
+        return () => window.removeEventListener('mousemove', handleGlobalMouseMove);
     }, [x, y]);
 
     return (
