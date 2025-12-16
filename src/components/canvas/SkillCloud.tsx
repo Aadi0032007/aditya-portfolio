@@ -61,7 +61,7 @@ export function SkillCloud({ skills }: SkillCloudProps) {
         <color attach="background" args={[0.03, 0.06, 0.12]} />
         <ambientLight intensity={0.6} />
         <directionalLight intensity={1.1} position={[4, 6, 3]} />
-        <Physics gravity={[0, -2, 0]} timeStep="varying">
+        <Physics gravity={[0, -2, 0]} timeStep="vary">
           {skills.map((skill, idx) => (
             <SkillBody key={skill} label={skill} index={idx} />
           ))}
