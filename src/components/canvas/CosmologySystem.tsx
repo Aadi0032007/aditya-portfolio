@@ -188,19 +188,35 @@ function RetroRocket({ position, scale = 1 }: { position: [number, number, numbe
 
     useFrame((state) => {
         if (!group.current || !flame.current) return;
-        const t = state.clock.elapsedTime;
+        const t = state.clock.elapsedTime * 0.5; // Base speed
 
-        // Gentle hover rotation
-        group.current.rotation.z = Math.sin(t * 0.5) * 0.1;
+        // FLIGHT PATH: Large Lissajous Figure-8 (Infinity Loop)
+        // Spans wider area
+        const x = Math.sin(t) * 25; // Wide X sweep
+        const y = Math.sin(t * 2) * 10; // Vertical loops
+        const z = position[2] + Math.cos(t) * 5; // Depth weaving
+
+        group.current.position.set(x, y, z);
+
+        // DYNAMIC ROTATION: Bank into the turn
+        // Calculate tangent (derivative) aproximation
+        const delta = 0.1;
+        const nextX = Math.sin(t + delta) * 25;
+        const nextY = Math.sin((t + delta) * 2) * 10;
+        const nextZ = position[2] + Math.cos(t + delta) * 5;
+
+        group.current.lookAt(nextX, nextY, nextZ);
+        // Adjust for model orientation (Rocket points up Y initially, need to align)
+        group.current.rotateX(Math.PI / 2);
 
         // Flame Flicker
-        const flicker = 1 + Math.sin(t * 15) * 0.2 + Math.cos(t * 20) * 0.1;
+        const flicker = 1 + Math.sin(t * 30) * 0.2 + Math.cos(t * 40) * 0.1;
         flame.current.scale.y = flicker;
-        flame.current.position.y = -1.2 - (flicker * 0.4); // Adjust position based on scale to keep attached
+        flame.current.position.y = -1.2 - (flicker * 0.4);
     });
 
     return (
-        <group ref={group} position={position} scale={scale} rotation={[0, 0, -Math.PI / 4]}>
+        <group ref={group} position={position} scale={scale}>
             {/* Body */}
             <Cylinder args={[0.4, 0.5, 2, 16]}>
                 <meshStandardMaterial color="#ffffff" metalness={0.4} roughness={0.5} />
@@ -257,9 +273,27 @@ function UFO({ position, scale = 1 }: { position: [number, number, number], scal
     useFrame((state) => {
         if (!group.current) return;
         const t = state.clock.elapsedTime;
-        // Hover
-        group.current.rotation.y = t * 2;
-        group.current.rotation.z = Math.sin(t * 3) * 0.2;
+
+        // FLIGHT PATH: Erratic "Search" Pattern
+        // Wide circle main path + rapid jitter
+
+        const mainRadius = 20;
+        const mainSpeed = 0.5;
+        const mainX = Math.cos(t * mainSpeed) * mainRadius;
+        const mainY = Math.sin(t * mainSpeed * 1.3) * (mainRadius * 0.5); // Ellipse
+
+        // Jitter / Swoop
+        const jitterX = Math.sin(t * 3) * 2;
+        const jitterY = Math.cos(t * 5) * 1.5;
+
+        group.current.position.x = mainX + jitterX;
+        group.current.position.y = mainY + jitterY;
+        group.current.position.z = position[2] + Math.sin(t * 2) * 2; // Z-bob
+
+        // Rotation: Spin + Tilt into movement
+        group.current.rotation.y = t * 3; // Fast spin
+        group.current.rotation.z = Math.sin(t * 3) * 0.3; // Wobbly tilt
+        group.current.rotation.x = Math.cos(t * 2) * 0.2;
     });
 
     return (
@@ -284,13 +318,31 @@ function UFO({ position, scale = 1 }: { position: [number, number, number], scal
 
 function Astronaut({ position, scale = 1 }: { position: [number, number, number], scale?: number }) {
     const group = useRef<Group>(null);
+    // Store random seed for unique drift
+    const driftSeed = useRef({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        z: Math.random() * 100,
+        rotSpeed: (Math.random() - 0.5) * 0.1
+    });
+
     useFrame((state) => {
         if (!group.current) return;
         const t = state.clock.elapsedTime;
-        // Slow tumble
-        group.current.rotation.x = t * 0.05;
-        group.current.rotation.y = t * 0.05;
-        group.current.rotation.z = -t * 0.02;
+
+        // FLIGHT PATH: Deep Space Drift
+        // Non-linear, slow, vast curve
+
+        const x = Math.sin(t * 0.1 + driftSeed.current.x) * 25; // Very wide drift
+        const y = Math.cos(t * 0.15 + driftSeed.current.y) * 15; // Vertical drift
+        const z = Math.sin(t * 0.05 + driftSeed.current.z) * 10 - 5; // Deep Z-axis movement
+
+        group.current.position.set(x, y, z);
+
+        // Zero-G Tumble
+        group.current.rotation.x = t * 0.2;
+        group.current.rotation.y = t * 0.1;
+        group.current.rotation.z = t * driftSeed.current.rotSpeed;
     });
 
     return (
@@ -415,23 +467,22 @@ export function CosmologySystem() {
 
         // Scroll Velocity / Warp Effect
         // Interaction Idea: "Warp Stretch"
-        // Calculate velocity based on difference between target (raw scroll) and current (dampened)
-        // Or simply derivative of scrollCurrent.
-        // Let's use the difference for a "lag" based velocity effect.
-        const scrollVelocity = (target - scroll) * 20; // Amplifier
+        // Increased multiplier for stronger "G-Force" feel
+        const scrollVelocity = (target - scroll) * 50; // Boosted from 20
 
-        // Dynamic Camera Fly-through effect
-        groupRef.current.position.y = scroll * 15;
+        // Dynamic Camera Fly-through effect (Faster vertical movement)
+        groupRef.current.position.y = scroll * 25;
 
         // WARP: Tilt on Z axis based on velocity (banking turn)
-        groupRef.current.rotation.z = -scrollVelocity * 0.1;
+        // Stronger banking on scroll
+        groupRef.current.rotation.z = -scrollVelocity * 0.3;
 
         // WARP: Stretch FOV illusion (push Z slightly)
-        // When moving fast, push the world away slightly to simulate "tunnel vision"
-        groupRef.current.position.z = -10 + (scroll * 5) - Math.abs(scrollVelocity) * 2;
+        // Deeper "tunnel vision" on fast scroll
+        groupRef.current.position.z = -10 + (scroll * 8) - Math.abs(scrollVelocity) * 3;
 
-        groupRef.current.rotation.x = scroll * Math.PI * 0.3; // Tilt
-        groupRef.current.rotation.y = state.clock.elapsedTime * 0.03 + (scroll * Math.PI);
+        groupRef.current.rotation.x = scroll * Math.PI * 0.5; // More intense tilt
+        groupRef.current.rotation.y = state.clock.elapsedTime * 0.05 + (scroll * Math.PI * 1.5);
 
     });
 
