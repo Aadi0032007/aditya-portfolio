@@ -9,7 +9,8 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/aditya-raj-aadi0032007/',
   github: 'https://github.com/Aadi0032007',
   imageUrl: '/images/me-professional.jpg',
-  aboutImage: '/images/me-casual.png'
+  aboutImage: '/images/me-casual.png',
+  discord: 'aadi0032007'
 };
 
 export const summary = [

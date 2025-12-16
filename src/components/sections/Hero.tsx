@@ -5,6 +5,8 @@ import { profile } from '@/data/resume';
 import { useEffect, useMemo } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { EmailButton } from '@/components/ui/EmailButton';
+import { DiscordButton } from '@/components/ui/DiscordButton';
 
 export function Hero() {
   const setPointer = useUIStore((s) => s.setPointer);
@@ -137,7 +139,7 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start"
             >
-              {contactButtons.map((btn) => (
+              {contactButtons.filter(btn => btn.label !== 'Email').map((btn) => (
                 <a
                   key={btn.label}
                   href={btn.href}
@@ -149,6 +151,13 @@ export function Hero() {
                   {/* Removed the generic purple gradient overlay to allow specific color to shine */}
                 </a>
               ))}
+
+              {/* Smart Email Button */}
+              <EmailButton
+                email={profile.email}
+                className="group relative overflow-hidden rounded-full border border-slate-200 dark:border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-slate-700 dark:text-white transition-all duration-300 hover:bg-indigo-600 hover:border-indigo-600 hover:text-white dark:hover:text-white"
+              />
+
               <a
                 href={`tel:${profile.phone}`}
                 className="group relative overflow-hidden rounded-full border border-slate-200 dark:border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-slate-700 dark:text-white transition-all duration-300 hover:bg-slate-800 hover:border-slate-800 hover:text-white dark:hover:bg-slate-700 dark:hover:border-slate-700"

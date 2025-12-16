@@ -4,6 +4,8 @@ import { profile } from '@/data/resume';
 import { useUIStore } from '@/store/ui';
 import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
+import { EmailButton } from '@/components/ui/EmailButton';
+import { DiscordButton } from '@/components/ui/DiscordButton';
 
 export function Contact() {
   const setActiveSection = useUIStore((s) => s.setActiveSection);
@@ -48,12 +50,11 @@ export function Contact() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <a
-              href={`mailto:${profile.email}`}
+            <EmailButton
+              email={profile.email}
+              label="Email Me"
               className="inline-flex min-w-[200px] items-center justify-center rounded-full bg-indigo-600 dark:bg-white px-8 py-4 font-bold text-white dark:text-slate-900 transition-transform hover:scale-105 shadow-lg shadow-indigo-500/30"
-            >
-              Email Me
-            </a>
+            />
             <a
               href={profile.linkedin}
               target="_blank"
@@ -62,6 +63,10 @@ export function Contact() {
             >
               LinkedIn
             </a>
+            <DiscordButton
+              username={profile.discord}
+              className="inline-flex min-w-[200px] items-center justify-center rounded-full bg-[#5865F2] hover:bg-[#4752C4] px-8 py-4 font-bold text-white transition-transform hover:scale-105 shadow-lg shadow-indigo-500/30"
+            />
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
