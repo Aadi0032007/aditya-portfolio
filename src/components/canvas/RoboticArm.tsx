@@ -10,6 +10,8 @@ const sectionTargets: Record<SectionId, Vector3> = {
   hero: new Vector3(0, 1.5, 0),
   summary: new Vector3(-0.5, 0.6, -1),
   experience: new Vector3(-0.4, 0, -1.2),
+  education: new Vector3(-0.2, -0.2, -1.3),
+  achievements: new Vector3(0, -0.3, -1.4),
   projects: new Vector3(0.3, -0.4, -1.4),
   skills: new Vector3(0.2, -0.7, -1.2),
   contact: new Vector3(0.1, -1.1, -1)

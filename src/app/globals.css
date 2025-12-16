@@ -3,18 +3,29 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
-  background: #05080f;
+  color-scheme: light dark;
 }
 
+/* Default to Light Mode */
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  color: #e5e7eb;
-  background: radial-gradient(circle at 10% 20%, rgba(125,211,252,0.12), transparent 30%),
-    radial-gradient(circle at 80% 0%, rgba(168,85,247,0.12), transparent 30%),
-    #05080f;
+  color: #334155;
+  /* slate-700 */
+  background: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1), transparent 30%),
+    radial-gradient(circle at 80% 0%, rgba(139, 92, 246, 0.1), transparent 30%),
+    #f8fafc;
+  /* slate-50 */
   background-size: cover;
   min-height: 100vh;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+/* Dark Mode Overrides */
+.dark body {
+  color: #e5e7eb;
+  background: radial-gradient(circle at 10% 20%, rgba(125, 211, 252, 0.12), transparent 30%),
+    radial-gradient(circle at 80% 0%, rgba(168, 85, 247, 0.12), transparent 30%),
+    #05080f;
 }
 
 ::selection {
@@ -35,12 +46,12 @@ a {
 }
 
 .section-grid {
-  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0);
   background-size: 24px 24px;
 }
 
 .code-badge {
-  @apply px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs uppercase tracking-[0.2em] text-slate-200;
+  @apply px-3 py-1 rounded-full bg-indigo-500/10 dark:bg-white/10 border border-indigo-500/20 dark:border-white/10 text-xs uppercase tracking-[0.2em] text-indigo-700 dark:text-slate-200;
 }
 
 .fade-border::before {
@@ -49,7 +60,7 @@ a {
   inset: 0;
   border-radius: 24px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(125,211,252,0.6), rgba(168,85,247,0.4), rgba(190,242,100,0.4));
+  background: linear-gradient(135deg, rgba(125, 211, 252, 0.6), rgba(168, 85, 247, 0.4), rgba(190, 242, 100, 0.4));
   -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -57,16 +68,16 @@ a {
 }
 
 .neon-text {
-  text-shadow: 0 0 10px rgba(125,211,252,0.8), 0 0 30px rgba(168,85,247,0.5);
+  text-shadow: 0 0 10px rgba(125, 211, 252, 0.8), 0 0 30px rgba(168, 85, 247, 0.5);
 }
 
 .grid-overlay {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 40px 40px;
-  mask-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.6), transparent 65%);
+  mask-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6), transparent 65%);
   pointer-events: none;
 }
 

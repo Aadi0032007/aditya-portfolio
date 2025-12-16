@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${grotesk.variable} ${inter.variable}`}>
+    <html lang="en" className={`${grotesk.variable} ${inter.variable} dark`}>
       <body className="bg-deep text-slate-100 antialiased min-h-screen">{children}</body>
     </html>
   );

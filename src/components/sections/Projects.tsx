@@ -12,60 +12,68 @@ export function Projects() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => entries.forEach((entry) => entry.isIntersecting && setActiveSection('projects')),
-      { threshold: 0.35 }
+      { threshold: 0.2 }
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [setActiveSection]);
 
   return (
-    <section ref={ref} id="projects" className="section-shell overflow-hidden px-8 py-10 md:px-12 md:py-12">
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent" />
-      <div className="relative space-y-6">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="code-badge">Projects · Lorenz Attractor</div>
-          <p className="text-sm text-slate-300">Chaotic trajectories trace the data manifolds behind every build.</p>
+    <section ref={ref} id="projects" className="section-shell overflow-hidden px-6 py-10 md:px-12 md:py-16">
+      <div className="relative space-y-8">
+        <div className="flex items-center gap-3">
+          <div className="code-badge">Featured Projects</div>
+          <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
         </div>
-        <div className="grid gap-4 lg:grid-cols-2">
-          {projects.map((project) => (
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          {projects.map((project, idx) => (
             <motion.div
               key={project.title}
-              className="rounded-2xl border border-white/10 bg-slate-900/60 p-5 backdrop-blur-lg"
-              initial={{ opacity: 0, y: 12 }}
+              className="group relative flex flex-col justify-between rounded-3xl border border-indigo-200/50 dark:border-white/10 bg-white/95 dark:bg-slate-900/80 p-6 backdrop-blur-xl transition-all hover:border-indigo-500 hover:shadow-[0_0_25px_rgba(99,102,241,0.3)] dark:hover:border-indigo-400"
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35 }}
-              whileHover={{ scale: 1.01, borderColor: 'rgba(125,211,252,0.6)', backgroundColor: 'rgba(15,23,42,0.85)' }}
+              transition={{ delay: idx * 0.1 }}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="text-lg font-semibold text-white">{project.title}</h3>
-                  <p className="text-slate-300">{project.description}</p>
+              <div className="space-y-4">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-500 dark:group-hover:text-indigo-300 transition-colors">
+                    {project.title}
+                  </h3>
+                  {project.linkUrl && (
+                    <a
+                      href={project.linkUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="shrink-0 rounded-full bg-indigo-50 dark:bg-white/5 p-2 text-slate-500 dark:text-slate-400 transition-colors hover:bg-indigo-100 dark:hover:bg-white/10 hover:text-indigo-600 dark:hover:text-white"
+                    >
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  )}
                 </div>
-                {project.linkLabel && project.linkUrl && (
-                  <a
-                    className="rounded-full border border-white/20 px-3 py-1 text-xs text-accent underline-offset-4 hover:underline"
-                    href={project.linkUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {project.linkLabel}
-                  </a>
+
+                <p className="text-slate-800 dark:text-slate-300 leading-relaxed font-light">
+                  {project.description}
+                </p>
+
+                {project.details && (
+                  <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-400">
+                    {project.details.map((detail, i) => (
+                      <li key={i} className="flex gap-2.5">
+                        <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-indigo-500/80 dark:bg-indigo-400" />
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
-              {project.details && (
-                <ul className="mt-3 space-y-1 text-slate-200/90">
-                  {project.details.map((detail) => (
-                    <li key={detail} className="flex gap-2">
-                      <span className="text-accent">▹</span>
-                      <span>{detail}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {project.tech && (
-                <div className="mt-3 flex flex-wrap gap-2">
+
+              {project.tech && project.tech.length > 0 && (
+                <div className="mt-6 flex flex-wrap gap-2">
                   {project.tech.map((t) => (
-                    <span key={t} className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-200">
+                    <span key={t} className="rounded-md border border-indigo-200/50 dark:border-white/5 bg-indigo-50/50 dark:bg-white/5 px-2.5 py-1 text-xs font-medium text-slate-800 dark:text-slate-300">
                       {t}
                     </span>
                   ))}
