@@ -90,8 +90,8 @@ export function Contact() {
           </div>
 
           <div className="pt-12">
-            <p className="text-xs text-slate-500">
-              {profile.location} · {profile.phone}
+            <p className="text-xs text-slate-500" suppressHydrationWarning>
+              {profile.location} | {profile.phone}
             </p>
           </div>
         </motion.div>
