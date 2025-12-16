@@ -4,20 +4,23 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 export function ViewCounter() {
-    const [views, setViews] = useState<number | null>(null);
+    // Default to 0 so it always renders immediately
+    const [views, setViews] = useState<number>(0);
 
     useEffect(() => {
-        // Using CountAPI (free, no auth)
-        // Namespace: adityaraj-portfolio-production
-        // Key: visits
-        // "hit" endpoint increments and returns the new value
+        // Using CountAPI
         fetch('https://api.countapi.xyz/hit/adityaraj-portfolio-production/visits')
-            .then((res) => res.json())
+            .then((res) => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
             .then((data) => setViews(data.value))
-            .catch((err) => console.error('Error fetching views:', err));
+            .catch((err) => {
+                console.error('View counter failed:', err);
+                // If API fails (e.g. adblocker), set to a fallback value (e.g. 1) or keep 0
+                setViews((v) => (v === 0 ? 1 : v));
+            });
     }, []);
-
-    if (views === null) return null;
 
     return (
         <motion.div
