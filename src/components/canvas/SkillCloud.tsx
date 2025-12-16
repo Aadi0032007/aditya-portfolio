@@ -57,7 +57,7 @@ function SkillBody({ label, index }: { label: string; index: number }) {
 export function SkillCloud({ skills }: SkillCloudProps) {
   return (
     <div className="h-[520px] overflow-hidden rounded-2xl border border-white/10">
-      <Canvas camera={{ position: [0, 2.5, 6], fov: 40 }} dpr={[1, 1.5]}>
+      <Canvas camera={{ position: [0, 2.5, 6], fov: 40 }} dpr={[1, 1.2]}>
         <color attach="background" args={[0.03, 0.06, 0.12]} />
         <ambientLight intensity={0.6} />
         <directionalLight intensity={1.1} position={[4, 6, 3]} />
