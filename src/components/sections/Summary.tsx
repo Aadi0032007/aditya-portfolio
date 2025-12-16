@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { summary } from '@/data/resume';
+import { summary, profile } from '@/data/resume';
 import { useUIStore } from '@/store/ui';
 import { useEffect, useRef } from 'react';
 
@@ -38,17 +38,32 @@ export function Summary() {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">About Me</h2>
         </div>
 
-        <div className="space-y-6 text-lg leading-relaxed text-slate-600 dark:text-slate-300 md:text-xl">
-          {summary.map((paragraph, idx) => (
-            <motion.p
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1, duration: 0.6 }}
-            >
-              {paragraph}
-            </motion.p>
-          ))}
+        <div className="grid gap-12 md:grid-cols-3">
+          <div className="space-y-6 text-lg leading-relaxed text-slate-600 dark:text-slate-300 md:col-span-2 md:text-xl">
+            {summary.map((paragraph, idx) => (
+              <motion.p
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1, duration: 0.6 }}
+              >
+                {paragraph}
+              </motion.p>
+            ))}
+          </div>
+
+          {/* About Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="relative aspect-[3/4] overflow-hidden rounded-2xl md:aspect-auto md:h-full"
+          >
+            <img
+              src={profile.aboutImage}
+              alt="Aditya Raj Casual"
+              className="h-full w-full object-cover"
+            />
+          </motion.div>
         </div>
       </div>
     </section>

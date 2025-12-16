@@ -56,13 +56,29 @@ export function Hero() {
         <div className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-indigo-500/20 blur-3xl" />
         <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-purple-500/20 blur-3xl" />
 
-        <div className="relative z-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-6">
+        <div className="relative z-10 flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex-shrink-0 order-first md:mr-12"
+          >
+            <div className="relative h-48 w-48 overflow-hidden rounded-full border-4 border-white/10 shadow-2xl md:h-72 md:w-72">
+              <img
+                src={profile.imageUrl}
+                alt={profile.name}
+                className="h-full w-full object-cover scale-125 object-[center_20%]"
+              />
+              <div className="absolute inset-0" />
+            </div>
+          </motion.div>
+
+          <div className="space-y-6 text-center md:text-left">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-indigo-500 dark:text-indigo-300"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-indigo-500 dark:text-indigo-300 mx-auto md:mx-0"
             >
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75"></span>
@@ -94,7 +110,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300/90"
+              className="max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300/90 mx-auto md:mx-0"
             >
               {profile.tagline}
             </motion.p>
@@ -103,7 +119,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap gap-4 pt-4"
+              className="flex flex-wrap gap-4 pt-4 justify-center md:justify-start"
             >
               {contactButtons.map((btn) => (
                 <a
@@ -117,20 +133,15 @@ export function Hero() {
                   <div className="absolute inset-0 -z-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 transition-opacity group-hover:opacity-100" />
                 </a>
               ))}
+              <a
+                href={`tel:${profile.phone}`}
+                className="group relative overflow-hidden rounded-full border border-slate-200 dark:border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-slate-700 dark:text-white transition-all hover:bg-white/10 hover:border-indigo-400/50"
+              >
+                <span className="relative z-10">{profile.phone}</span>
+                <div className="absolute inset-0 -z-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 transition-opacity group-hover:opacity-100" />
+              </a>
             </motion.div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="hidden text-right md:block"
-          >
-            <div className="text-sm text-slate-500 dark:text-slate-400">Location</div>
-            <div className="text-lg text-slate-900 dark:text-white">{profile.location}</div>
-            <div className="mt-4 text-sm text-slate-500 dark:text-slate-400">Contact</div>
-            <div className="text-lg text-slate-900 dark:text-white">{profile.phone}</div>
-          </motion.div>
         </div>
       </motion.div>
     </section>
