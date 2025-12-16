@@ -468,8 +468,7 @@ export function CosmologySystem() {
         // Scroll Velocity / Warp Effect
         // Interaction Idea: "Warp Stretch"
         // Increased multiplier for stronger "G-Force" feel
-        const rawVelocity = (target - scroll) * 50;
-        const scrollVelocity = isNaN(rawVelocity) ? 0 : rawVelocity; // Boosted from 20
+        const scrollVelocity = (target - scroll) * 50; // Boosted from 20
 
         // Dynamic Camera Fly-through effect (Faster vertical movement)
         groupRef.current.position.y = scroll * 25;

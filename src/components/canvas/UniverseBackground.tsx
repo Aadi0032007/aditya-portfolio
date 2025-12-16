@@ -19,7 +19,7 @@ function SceneConfig() {
 export function UniverseBackground() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10">
-      <Canvas camera={{ position: [0, 0, 10], fov: 60 }} dpr={1} gl={{ antialias: false, powerPreference: "high-performance" }}>
+      <Canvas camera={{ position: [0, 0, 10], fov: 60 }} dpr={[1, 1.8]}>
         <SceneConfig />
         <ambientLight intensity={0.6} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />

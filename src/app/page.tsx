@@ -12,6 +12,7 @@ import { UniverseBackground } from '@/components/canvas/UniverseBackground';
 import { NeonCursor } from '@/components/ui/NeonCursor';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { Logo } from '@/components/ui/Logo';
+import { ViewCounter } from '@/components/ui/ViewCounter';
 import { useUIStore } from '@/store/ui';
 import { useEffect } from 'react';
 
@@ -48,6 +49,7 @@ export default function Page() {
           <p className="inline-block rounded-full bg-slate-900/50 px-6 py-3 text-sm font-bold text-slate-200 backdrop-blur-md shadow-2xl border border-white/10 tracking-wide">
             This website is vibe coded by Aditya Raj.
           </p>
+          <ViewCounter />
         </footer>
       </main>
     </div>

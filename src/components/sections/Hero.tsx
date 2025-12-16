@@ -25,8 +25,8 @@ export function Hero() {
 
   const handlePointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const normalizedX = rect.width > 0 ? ((e.clientX - rect.left) / rect.width) * 2 - 1 : 0;
-    const normalizedY = rect.height > 0 ? ((e.clientY - rect.top) / rect.height) * 2 - 1 : 0;
+    const normalizedX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const normalizedY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
     setPointer(normalizedX, normalizedY);
     mouseX.set(normalizedX);
     mouseY.set(normalizedY);
@@ -137,7 +137,7 @@ export function Hero() {
                 href={`tel:${profile.phone}`}
                 className="group relative overflow-hidden rounded-full border border-slate-200 dark:border-white/20 bg-white/5 px-6 py-2.5 text-sm font-medium text-slate-700 dark:text-white transition-all hover:bg-white/10 hover:border-indigo-400/50"
               >
-                <span className="relative z-10" suppressHydrationWarning>{profile.phone}</span>
+                <span className="relative z-10">{profile.phone}</span>
                 <div className="absolute inset-0 -z-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 opacity-0 transition-opacity group-hover:opacity-100" />
               </a>
             </motion.div>
