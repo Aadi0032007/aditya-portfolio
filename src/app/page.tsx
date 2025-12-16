@@ -12,7 +12,6 @@ import { UniverseBackground } from '@/components/canvas/UniverseBackground';
 import { NeonCursor } from '@/components/ui/NeonCursor';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { Logo } from '@/components/ui/Logo';
-import { GyroController } from '@/components/utils/GyroController';
 import { useUIStore } from '@/store/ui';
 import { useEffect } from 'react';
 
@@ -31,7 +30,6 @@ export default function Page() {
 
   return (
     <div className="relative">
-      <GyroController />
       <NeonCursor />
       <Logo />
       <ThemeToggle />
