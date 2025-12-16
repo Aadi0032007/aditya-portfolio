@@ -1,23 +1,35 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 export function ViewCounter() {
-    // Default to 0 so it always renders immediately
     const [views, setViews] = useState<number>(0);
+    const hasFetched = useRef(false);
 
     useEffect(() => {
-        // Using CountAPI
-        fetch('https://api.countapi.xyz/hit/adityaraj-portfolio-production/visits')
+        if (hasFetched.current) return;
+        hasFetched.current = true;
+
+        // API: counterapi.dev
+        // Namespace: adityaraj-portfolio-v1
+        // Key: views
+        // Action: up (increments and returns new count)
+        // This provides permanent storage on their servers.
+        fetch('https://api.counterapi.dev/v1/adityaraj-portfolio-v1/views/up')
             .then((res) => {
                 if (!res.ok) throw new Error('Network response was not ok');
                 return res.json();
             })
-            .then((data) => setViews(data.value))
+            .then((data) => {
+                // API returns { count: number }
+                if (typeof data.count === 'number') {
+                    setViews(data.count);
+                }
+            })
             .catch((err) => {
                 console.error('View counter failed:', err);
-                // If API fails (e.g. adblocker), set to a fallback value (e.g. 1) or keep 0
+                // Fallback to 1 if it fails, just so it's not 0 forever
                 setViews((v) => (v === 0 ? 1 : v));
             });
     }, []);
